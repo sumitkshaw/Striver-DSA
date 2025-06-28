@@ -1,72 +1,66 @@
-import java.util.Scanner;
+import java.util.*;
 
-class Node {
+class Node{
     int data;
     Node next;
 
-    Node(int x) {
+    Node(int x){
         data = x;
         next = null;
     }
 }
-
-public class DeleteNode {
+public class DeleteNode{
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        int n = sc.nextInt(); // Number of elements
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+        int n = sc.nextInt(); // Length of the array
+
+        Node head = null;
+        Node tail = null;
+
+        for(int i=0; i<n;i++){
+            Node newNode = new Node(sc.nextInt());
+            if (head == null) {
+                head = newNode; // Initialize head if it's the first node
+                tail = head;    // Set tail to head
+            } else {
+                tail.next = newNode; // Link the new node at the end
+                tail = tail.next;     // Move tail to the new node
+            }   
         }
 
-        int k = sc.nextInt(); // Index of node to delete (not value!)
+        int k = sc.nextInt(); // Value to delete from the linked list
 
-        Node head = buildList(arr);
-        Node nodeToDelete = getNodeAt(head, k);
+        head = deletNode(head, k); // Call the function to delete the node
 
-        if (nodeToDelete != null && nodeToDelete.next != null) {
-            deleteNode(nodeToDelete);
+        Node current = head;
+        while (current != null) {
+            System.out.print(current.data + " "); // Print the linked list
+            current = current.next; // Move to the next node
         }
-
-        printList(head);
         sc.close();
     }
 
-    public static Node buildList(int[] arr) {
-        if (arr.length == 0) return null;
+    public static Node deletNode(Node head, int k){
+        if (head == null) return null; // If the list is empty, return null
 
-        Node head = new Node(arr[0]);
-        Node tail = head;
-        for (int i = 1; i < arr.length; i++) {
-            tail.next = new Node(arr[i]);
-            tail = tail.next;
+        // If the head node is to be deleted
+        if (head.data == k) {
+            return head.next; // Return the next node as the new head
         }
-        return head;
-    }
 
-    // Gets node at index k (0-based)
-    public static Node getNodeAt(Node head, int k) {
-        int i = 0;
-        Node curr = head;
-        while (curr != null && i < k) {
-            curr = curr.next;
-            i++;
+        Node current = head;
+        
+        // Traverse the list to find the node to delete
+        while (current.next != null && current.next.data != k) {
+            current = current.next;
         }
-        return curr;
-    }
 
-    // LeetCode-style deleteNode by reference
-    public static void deleteNode(Node node) {
-        node.data = node.next.data;
-        node.next = node.next.next;
-    }
-
-    public static void printList(Node head) {
-        Node temp = head;
-        while (temp != null) {
-            System.out.print(temp.data + " ");
-            temp = temp.next;
+        // If the node was found, delete it
+        if (current.next != null) {
+            current.next = current.next.next; // Bypass the node to delete it
         }
+
+        return head; // Return the modified list
     }
 }
