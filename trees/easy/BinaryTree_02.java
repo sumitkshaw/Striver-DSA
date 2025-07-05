@@ -4,7 +4,7 @@ class TreeNode{
     int val;
     TreeNode left,right;
 
-    TreeNode(int x){
+    TreeNode(int x1){
         val = x;
         left = null;
         right = null;
