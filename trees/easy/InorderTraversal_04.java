@@ -1,8 +1,7 @@
 
 import java.util.LinkedList;
 import java.util.Queue;
-
-
+import java.util.Scanner;
 
 class TreeNode{
     int val;
@@ -16,6 +15,16 @@ class TreeNode{
 
 public class InorderTraversal_04 {
     public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int [] nodes = new int[n];
+
+        for(int i=0;i<n;i++){
+            nodes[i] = sc.nextInt();
+        }
+        TreeNode root = buildTree(nodes);
+        
         
     }
     public void inorder(TreeNode root){
